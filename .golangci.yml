@@ -4,8 +4,14 @@ linters:
     - gosimple
     - govet
     - staticcheck
-    - structcheck
     - unused
+
+linters-settings:
+  errcheck:
+    exclude-functions:
+      - fmt.Fprintf
+      - fmt.Printf
+      - fmt.Fprintf
 
 issues:
   exclude-use-default: false
@@ -15,6 +21,7 @@ run:
   tests: true
 
 output:
-  format: colored-line-number
+  formats:
+    - colored-line-number
   sort-results: true
   print-issued-lines: true
