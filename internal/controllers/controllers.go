@@ -4,16 +4,19 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog"
 )
 
-func HelloHandler(c *gin.Context) {
-	c.String(http.StatusOK, "Hello, World!")
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Hello, World!"))
 }
 
-func ErrorHandler(c *gin.Context) {
-	c.JSON(http.StatusInternalServerError, gin.H{
-		"message": "Internal Server Error",
-	})
-	c.Error(errors.New("this is a test error"))
+func ErrorHandler(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+}
+
+func LogErrorHandler(w http.ResponseWriter, r *http.Request, logger zerolog.Logger) {
+	http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	logger.Error().Err(errors.New("this is a test error")).Msg("error occurred")
 }

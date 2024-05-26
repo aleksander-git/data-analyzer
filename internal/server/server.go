@@ -1,21 +1,20 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/aleksander-git/data-analyzer/internal/controllers"
-	middleware "github.com/aleksander-git/data-analyzer/pkg/logger"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+	"github.com/aleksander-git/data-analyzer/pkg/logger"
+	"github.com/rs/zerolog"
 )
 
-func NewRouter(logger *logrus.Logger) *gin.Engine {
-	router := gin.New()
+func NewRouter(log zerolog.Logger) http.Handler {
+	mux := http.NewServeMux()
 
-	router.Use(middleware.Logger(logger))
-	router.Use(gin.RecoveryWithWriter(logger.Writer()))
+	mux.Handle("/hello", logger.LogRequest(http.HandlerFunc(controllers.HelloHandler), log))
+	mux.Handle("/error", logger.LogRequest(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		controllers.LogErrorHandler(w, r, log)
+	}), log))
 
-	// Пример маршрута
-	router.GET("/", controllers.HelloHandler)
-	router.GET("/error", controllers.ErrorHandler)
-
-	return router
+	return mux
 }

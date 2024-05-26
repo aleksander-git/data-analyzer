@@ -1,26 +1,22 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/aleksander-git/data-analyzer/internal/server"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
 )
 
 func main() {
+	output := zerolog.ConsoleWriter{Out: os.Stdout}
+	zeroLogger := zerolog.New(output).With().Timestamp().Logger()
 
-	gin.SetMode(gin.ReleaseMode)
+	zeroLogger.Info().Msg("Logger initialized")
+	zeroLogger.Info().Msg("Starting server")
 
-	logger := logrus.New()
-	logger.Out = os.Stdout
-	logger.SetLevel(logrus.InfoLevel)
-
-	logger.Info("Logger initialized")
-	logger.Info("Starting server")
-
-	router := server.NewRouter(logger)
-	if err := router.Run(":8080"); err != nil {
-		logger.Fatalf("could not start server: %v", err)
+	router := server.NewRouter(zeroLogger)
+	if err := http.ListenAndServe(":8080", router); err != nil {
+		zeroLogger.Error().Err(err).Msg("could not start server")
 	}
 }
