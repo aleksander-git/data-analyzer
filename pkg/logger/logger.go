@@ -17,6 +17,15 @@ type responseWriter struct {
 	statusCode int
 }
 
+func (rw *responseWriter) WriteHeader(statusCode int) {
+	rw.statusCode = statusCode
+	rw.ResponseWriter.WriteHeader(statusCode)
+}
+
+func (rw *responseWriter) Write(b []byte) (int, error) {
+	return rw.ResponseWriter.Write(b)
+}
+
 func LogRequest(handler http.Handler, logger zerolog.Logger) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -26,11 +35,9 @@ func LogRequest(handler http.Handler, logger zerolog.Logger) http.Handler {
 		requestLogger := logger.With().Logger()
 
 		defer func() {
-			if r := recover(); r != nil {
-
-				requestLogger.Error().Interface("recovered", r).Msg("recovered from panic")
-
-				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			if rec := recover(); rec != nil {
+				requestLogger.Error().Interface("recovered", rec).Msg("recovered from panic")
+				http.Error(ww, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			}
 		}()
 
@@ -40,10 +47,11 @@ func LogRequest(handler http.Handler, logger zerolog.Logger) http.Handler {
 			}
 		}
 
-		r.ParseForm()
-		for key, values := range r.Form {
-			for _, value := range values {
-				requestLogger.Debug().Str("param_"+key, value).Msg("")
+		if err := r.ParseForm(); err == nil {
+			for key, values := range r.Form {
+				for _, value := range values {
+					requestLogger.Debug().Str("param_"+key, value).Msg("")
+				}
 			}
 		}
 
