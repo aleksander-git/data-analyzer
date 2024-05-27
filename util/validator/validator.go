@@ -2,8 +2,9 @@ package validator
 
 import (
 	"reflect"
+	"regexp"
+	"strings"
 
-	"github.com/aleksander-git/data-analyzer/util/validator"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -30,4 +31,9 @@ func New() *validator.Validate {
 	validate.RegisterValidation("alpha_space", isAlphaSpace)
 
 	return validate
+}
+
+func isAlphaSpace(fl validator.FieldLevel) bool {
+	reg := regexp.MustCompile(alphaSpaceRegexString)
+	return reg.MatchString(fl.Field().String())
 }
