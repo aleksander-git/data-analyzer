@@ -5,24 +5,9 @@ go 1.21.9
 require github.com/gin-gonic/gin v1.9.1
 
 require (
-<<<<<<< HEAD
-	github.com/gorilla/mux v1.8.1 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/rs/zerolog v1.33.0 // indirect
-)
-
-require (
-	github.com/bytedance/sonic v1.11.6 // indirect
-	github.com/bytedance/sonic/loader v0.1.1 // indirect
-	github.com/cloudwego/base64x v0.1.4 // indirect
-	github.com/cloudwego/iasm v0.2.0 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
-=======
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
->>>>>>> refs/remotes/origin/5-server-repo-template
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
