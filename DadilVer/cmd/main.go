@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/aleksander-git/data-analyzer/internal/server"
+	server "github.com/aleksander-git/data-analyzer/internal/services"
 	"github.com/rs/zerolog"
 )
 
