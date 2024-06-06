@@ -1,4 +1,4 @@
-version: 2
+version: v2
 
 # Настройки используемых плагинов.
 # Здесь мы перечисляем скаченные раннее бинарные файлы плагинов,
@@ -6,34 +6,27 @@ version: 2
 # и прописываем различные дополнительные опции.
 plugins:
   # Генерирует файлы .pb.go
-  - name: go
-    path: ./bin/protoc-gen-go
-    out: ./gen
-    opt:
-    - paths=source_relative
-
+    - local: ./bin/protoc-gen-go
+      out: ./gen
+      opt:
+        - paths=source_relative
   # Генерирует файлы _grpc.pb.go
-  - name: go-grpc
-    path: ./bin/protoc-gen-go-grpc
-    out: ./gen
-    opt:
-    - paths=source_relative
-
-  # Генерирует файлы .pb.gw.go
-  - name: grpc-gateway
-    path: ./bin/protoc-gen-grpc-gateway
-    out: ./gen
-    opt:
-    - paths=source_relative
+    - local: ./bin/protoc-gen-go-grpc
+      out: ./gen
+      opt:
+        - paths=source_relative
+  # Генерирует файлы .pb.gw.go  
+    - local: ./bin/protoc-gen-grpc-gateway
+      out: ./gen
+      opt:
+        - paths=source_relative
 
   # Генерирует файлы .swagger.json
-  - name: openapiv2
-    path: ./bin/protoc-gen-openapiv2
-    out: ./gen
+    - local: ./bin/protoc-gen-openapiv2
+      out: ./gen
 
   # Генерирует один общий файл .swagger.json
-  - name: openapiv2
-    path: ./bin/protoc-gen-openapiv2
-    out: ./docs
-    opt:
-    - allow_merge=true
+    - local: ./bin/protoc-gen-openapiv2
+      out: ./docs
+      opt:
+        - allow_merge=true
