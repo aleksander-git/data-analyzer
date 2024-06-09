@@ -1,3 +1,4 @@
 /bin
 /proto/google
 /proto/buf
+/proto/protoc-gen-openapiv2
