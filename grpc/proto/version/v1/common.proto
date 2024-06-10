@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package version.v1;
+
+option go_package = "github.com/aleksander-git/data-analyzer/grpc/proto/version/v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+      title: "Echo API";
+      version: "0.0.1";
+      description: "Тестовый пример работы с gRPC-Gateway";
+      contact: {
+        name: "Проект по загрузке данных с csv файла и дальнейшей его обработки";
+        url: "https://github.com/aleksander-git/data-analyzer/";
+        email: "";
+      };
+      license: {
+        name: "BSD 3-Clause License";
+        url: "";
+      };
+    };
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+  };
+  message VersionResponse {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+      json_schema: {
+          title: "Получение версии проекта"
+          description: "Возвращает версию API"
+      }
+      external_docs: {
+          url: "https://github.com/grpc-ecosystem/grpc-gateway";
+          description: "API документация";
+      }
+  };
+    string version = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "Версия API";
+    }];
+  };
+  service Microservice {
+    rpc GetVersion(google.protobuf.Empty) returns (VersionResponse) {
+      option (google.api.http) = {
+        post: "/version"
+        body: "*"
+      };
+  
+      // Описание для POST запроса /v1/example
+      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        summary: "Возвращает версию API";
+        operation_id: "getVersion";
+        tags: "echo";
+        responses: {
+          key: "200"
+          value: {
+            description: "OK";
+          }
+        }
+      };
+    }
+  }
