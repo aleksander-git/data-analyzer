@@ -28,9 +28,23 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     consumes: "application/json";
     produces: "application/json";
   };
-
+  message VersionResponse {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
+      json_schema: {
+          title: "Получение версии проекта"
+          description: "Возвращает версию API"
+      }
+      external_docs: {
+          url: "https://github.com/grpc-ecosystem/grpc-gateway";
+          description: "API документация";
+      }
+  };
+    string version = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description: "Версия API";
+    }];
+  };
   service Microservice {
-    rpc Example(google.protobuf.Empty) returns (ExampleResponse) {
+    rpc GetVersion(google.protobuf.Empty) returns (VersionResponse) {
       option (google.api.http) = {
         post: "/version"
         body: "*"
@@ -38,13 +52,13 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   
       // Описание для POST запроса /v1/example
       option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-        summary: "Get a message.";
-        operation_id: "getMessage";
+        summary: "Возвращает версию API";
+        operation_id: "getVersion";
         tags: "echo";
         responses: {
-          key: "201"
+          key: "200"
           value: {
-            description: "OK Success";
+            description: "OK";
           }
         }
       };
