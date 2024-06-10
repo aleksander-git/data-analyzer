@@ -1,0 +1,110 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Echo API",
+    "description": "Тестовый пример работы с gRPC-Gateway",
+    "version": "0.0.1",
+    "contact": {
+      "name": "Проект по загрузке данных с csv файла и дальнейшей его обработки",
+      "url": "https://github.com/aleksander-git/data-analyzer/"
+    },
+    "license": {
+      "name": "BSD 3-Clause License"
+    }
+  },
+  "tags": [
+    {
+      "name": "Microservice"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/version": {
+      "post": {
+        "summary": "Возвращает версию API",
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1VersionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "tags": [
+          "echo"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1VersionResponse": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Версия API"
+        }
+      },
+      "description": "Возвращает версию API",
+      "title": "Получение версии проекта",
+      "externalDocs": {
+        "description": "API документация",
+        "url": "https://github.com/grpc-ecosystem/grpc-gateway"
+      }
+    }
+  }
+}
