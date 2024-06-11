@@ -17,15 +17,26 @@ type MicroserviceServer struct {
 	pb.UnimplementedMicroserviceServer
 }
 
-func (s *MicroserviceServer) GetVersion(ctx context.Context, in *emptypb.Empty) (*pb.VersionResponse, error) {
-	return &pb.VersionResponse{Version: "0.0.1"}, nil
+// *emptypb.Empty - пустая структура заглушка для rpc proto файлов
+func (s *MicroserviceServer) GetVersion(ctx context.Context, _ *emptypb.Empty) (*pb.VersionResponse, error) {
+	select {
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	default:
+		return &pb.VersionResponse{Version: version}, nil
+	}
 }
 
+const (
+	version    = "0.0.1"
+	maxServers = 2
+)
+
 func main() {
-	ch := make(chan error, 2)
+	ch := make(chan error, maxServers)
 	go func(ch chan error) {
 		slog.Info("gRPC сервер запущен на порту 50051")
-		port, err := net.Listen("tcp", ":50051")
+		port, err := net.Listen("tcp", "localhost:50051")
 		if err != nil {
 			ch <- err
 			return
@@ -46,8 +57,9 @@ func main() {
 			return
 		}
 		s := http.Server{
-			Addr:    ":8080",
-			Handler: mux,
+			Addr:              ":8080",
+			Handler:           mux,
+			ReadHeaderTimeout: 0,
 		}
 		slog.Info("gRPC-Gateway сервер запущен на порту 8080")
 		if err = s.ListenAndServe(); err != nil {
