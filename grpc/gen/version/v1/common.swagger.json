@@ -28,7 +28,7 @@
   ],
   "paths": {
     "/version": {
-      "post": {
+      "get": {
         "summary": "Возвращает версию API",
         "operationId": "getVersion",
         "responses": {
@@ -45,17 +45,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
         "tags": [
           "echo"
         ]

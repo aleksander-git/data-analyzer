@@ -36,10 +36,6 @@ func request_Microservice_GetVersion_0(ctx context.Context, marshaler runtime.Ma
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
 	msg, err := client.GetVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -48,10 +44,6 @@ func request_Microservice_GetVersion_0(ctx context.Context, marshaler runtime.Ma
 func local_request_Microservice_GetVersion_0(ctx context.Context, marshaler runtime.Marshaler, server MicroserviceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 
 	msg, err := server.GetVersion(ctx, &protoReq)
 	return msg, metadata, err
@@ -64,7 +56,7 @@ func local_request_Microservice_GetVersion_0(ctx context.Context, marshaler runt
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMicroserviceHandlerFromEndpoint instead.
 func RegisterMicroserviceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MicroserviceServer) error {
 
-	mux.Handle("POST", pattern_Microservice_GetVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Microservice_GetVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -130,7 +122,7 @@ func RegisterMicroserviceHandler(ctx context.Context, mux *runtime.ServeMux, con
 // "MicroserviceClient" to call the correct interceptors.
 func RegisterMicroserviceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MicroserviceClient) error {
 
-	mux.Handle("POST", pattern_Microservice_GetVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Microservice_GetVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)

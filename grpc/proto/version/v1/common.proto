@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package version.v1;
 
-option go_package = "github.com/aleksander-git/data-analyzer/grpc/proto/version/v1";
+option go_package = "github.com/aleksander-git/data-analyzer/grpc/gen/version/v1";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -29,6 +29,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
     produces: "application/json";
   };
   message VersionResponse {
+    // Описание для OpenAPI
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_schema) = {
       json_schema: {
           title: "Получение версии проекта"
@@ -45,12 +46,12 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   };
   service Microservice {
     rpc GetVersion(google.protobuf.Empty) returns (VersionResponse) {
+      //Описываем обработчик для GET запроса /version
       option (google.api.http) = {
-        post: "/version"
-        body: "*"
+        get: "/version"
       };
   
-      // Описание для POST запроса /v1/example
+      // Описание для GET запроса /version для OpenAPI
       option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
         summary: "Возвращает версию API";
         operation_id: "getVersion";
