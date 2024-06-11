@@ -74,17 +74,17 @@ COMMENT ON COLUMN datasets.created_at IS 'When dataset was created';
 CREATE TABLE users
 (
   user_id                 bigint       NOT NULL GENERATED ALWAYS AS IDENTITY,
-  username                VARCHAR(100) NOT NULL,
-  password_hash           VARCHAR(100),
-  name                    VARCHAR(100),
-  surename                VARCHAR(100),
-  email                   VARCHAR(100),
-  messengers              VARCHAR(100),
-  created_at              TIMESTAMP    NOT NULL DEFAULT now(),
-  is_archieved            BOOLEAN      NOT NULL DEFAULT false,
-  archieved_at            TIMESTAMP   ,
+  username                varchar(100) NOT NULL,
+  password_hash           varchar(100),
+  name                    varchar(100),
+  surename                varchar(100),
+  email                   varchar(100),
+  messengers              varchar(100),
+  created_at              timestamp    NOT NULL DEFAULT now(),
+  is_archieved            boolean      NOT NULL DEFAULT false,
+  archieved_at            timestamp   ,
   is_blocked              boolean      NOT NULL DEFAULT false,
-  blocked_at              TIMESTAMP   ,
+  blocked_at              timestamp   ,
   incorrect_pwd_try_count INTEGER      NOT NULL DEFAULT 0,
   PRIMARY KEY (user_id)
 );
