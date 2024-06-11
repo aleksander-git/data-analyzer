@@ -4,7 +4,8 @@ sql:
     - engine: "postgresql"
       schema: "../../../docs/erd/data-analyzer-schema.sql"
       queries:
-          - "queries/queries.sql"
+          - "queries/datasets.sql"
+          - "queries/databases.sql"
       gen: 
         go:
             package: "datasets"
