@@ -1,0 +1,18 @@
+#file: noinspection YAMLSchemaValidation
+version: "2"
+cloud:
+    organization: ""
+    project: ""
+    hostname: ""
+# noinspection YAMLSchemaValidation
+sql:
+    - engine: "postgresql"
+      queries:
+          - "internal/database/backend/queries/.sql"
+      schema: "docs/erd/data-analyzer-schema.sql"
+
+overrides:
+    go:
+plugins: []
+rules: []
+options: {}
