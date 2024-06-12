@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui-container"
+    ports:
+      - "8086:8080"
+    volumes:
+      - ./grpc/docs/apidocs.swagger.json:/v1.swagger.json
+    environment:
+      SWAGGER_JSON: /v1.swagger.json
+      URLS: "[{url: 'v1.swagger.json', name: 'API Version 1.0'}]"
