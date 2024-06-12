@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Echo API",
+    "title": "Data Analyzer API",
     "description": "Тестовый пример работы с gRPC-Gateway",
     "version": "0.0.1",
     "contact": {
