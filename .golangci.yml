@@ -45,8 +45,11 @@ linters-settings:
   depguard:
     rules:
       prevent_unmaintained_packages:
+        list-mode: lax
         allow:
-          - all
+          - github.com/aleksander-git/data-analyzer
+          - github.com/grpc-ecosystem/grpc-gateway/v2/runtime
+
 
 issues:
   exclude-rules:
