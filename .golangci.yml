@@ -45,8 +45,7 @@ linters-settings:
   depguard:
     rules:
       prevent_unmaintained_packages:
-        allow:
-          - github.com/aleksander-git/data-analyzer
+        list-mode: original
 
 issues:
   exclude-rules:
