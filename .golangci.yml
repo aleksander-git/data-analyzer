@@ -45,7 +45,8 @@ linters-settings:
   depguard:
     rules:
       prevent_unmaintained_packages:
-        list-mode: original
+        allow:
+          - all
 
 issues:
   exclude-rules:
