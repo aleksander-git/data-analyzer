@@ -1,8 +1,8 @@
 run:
   timeout: 20m
 
+
 linters:
-  disable-all: true
   enable:
     - bodyclose
     - depguard
@@ -39,3 +39,17 @@ linters:
     - unparam
     - unused
     - whitespace
+  fast: true
+
+linters-settings:
+  depguard:
+    rules:
+      prevent_unmaintained_packages:
+        allow:
+          - github.com/aleksander-git/data-analyzer
+
+issues:
+  exclude-rules:
+    - path: _grpc/gen\.go
+      linters:
+        - linters-all
