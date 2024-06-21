@@ -37,4 +37,5 @@ jobs:
           version: v1.58
 
       - name: Run golangci-lint
-        run: golangci-lint run
+        run:
+          golangci-lint run
