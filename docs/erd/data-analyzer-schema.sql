@@ -26,15 +26,15 @@ COMMENT ON COLUMN databases.token IS 'Connection token';
 
 CREATE TABLE dataset_statuses
 (
-  dataseset_status_id int           NOT NULL,
-  name                varchar(100)  NOT NULL,
-  descr               varchar(1000),
-  PRIMARY KEY (dataseset_status_id)
+  dataset_status_id int           NOT NULL,
+  name              varchar(100)  NOT NULL,
+  descr             varchar(1000),
+  PRIMARY KEY (dataset_status_id)
 );
 
 COMMENT ON TABLE dataset_statuses IS 'List of available dataset statuses';
 
-COMMENT ON COLUMN dataset_statuses.dataseset_status_id IS 'Status id';
+COMMENT ON COLUMN dataset_statuses.dataset_status_id IS 'Status id';
 
 COMMENT ON COLUMN dataset_statuses.name IS 'Status name (uploading, available, failed)';
 
@@ -42,14 +42,14 @@ COMMENT ON COLUMN dataset_statuses.descr IS 'Status description';
 
 CREATE TABLE datasets
 (
-  dataset_id          bigint        NOT NULL GENERATED ALWAYS AS IDENTITY,
-  user_id             bigint        NOT NULL,
-  dataseset_status_id int           NOT NULL,
-  database_id         bigint        NOT NULL,
-  table_name          varchar(1000),
-  is_archieved        boolean       NOT NULL DEFAULT false,
-  archieved_at        timestamp    ,
-  created_at          timestamp     NOT NULL DEFAULT now(),
+  dataset_id        bigint        NOT NULL GENERATED ALWAYS AS IDENTITY,
+  user_id           bigint        NOT NULL,
+  dataset_status_id int           NOT NULL,
+  database_id       bigint        NOT NULL,
+  table_name        varchar(1000),
+  is_archieved      boolean       NOT NULL DEFAULT false,
+  archieved_at      timestamp    ,
+  created_at        timestamp     NOT NULL DEFAULT now(),
   PRIMARY KEY (dataset_id)
 );
 
@@ -59,7 +59,7 @@ COMMENT ON COLUMN datasets.dataset_id IS 'Dataset id (autoincrement)';
 
 COMMENT ON COLUMN datasets.user_id IS 'Owner of dataset';
 
-COMMENT ON COLUMN datasets.dataseset_status_id IS 'Status id';
+COMMENT ON COLUMN datasets.dataset_status_id IS 'Status id';
 
 COMMENT ON COLUMN datasets.database_id IS 'Database id';
 
@@ -74,18 +74,18 @@ COMMENT ON COLUMN datasets.created_at IS 'When dataset was created';
 CREATE TABLE users
 (
   user_id                 bigint       NOT NULL GENERATED ALWAYS AS IDENTITY,
-  username                VARCHAR(100) NOT NULL,
-  password_hash           VARCHAR(100),
-  name                    VARCHAR(100),
-  surename                VARCHAR(100),
-  email                   VARCHAR(100),
-  messengers              VARCHAR(100),
-  created_at              TIMESTAMP    NOT NULL DEFAULT now(),
-  is_archieved            BOOLEAN      NOT NULL DEFAULT false,
-  archieved_at            TIMESTAMP   ,
+  username                varchar(100) NOT NULL,
+  password_hash           varchar(100),
+  name                    varchar(100),
+  surname                 varchar(100),
+  email                   varchar(100),
+  messengers              varchar(100),
+  created_at              timestamp    NOT NULL DEFAULT now(),
+  is_archieved            boolean      NOT NULL DEFAULT false,
+  archieved_at            timestamp   ,
   is_blocked              boolean      NOT NULL DEFAULT false,
-  blocked_at              TIMESTAMP   ,
-  incorrect_pwd_try_count INTEGER      NOT NULL DEFAULT 0,
+  blocked_at              timestamp   ,
+  incorrect_pwd_try_count integer      NOT NULL DEFAULT 0,
   PRIMARY KEY (user_id)
 );
 
@@ -99,7 +99,7 @@ COMMENT ON COLUMN users.password_hash IS 'Password hash';
 
 COMMENT ON COLUMN users.name IS 'Person Name';
 
-COMMENT ON COLUMN users.surename IS 'Person Surname';
+COMMENT ON COLUMN users.surname IS 'Person Surname';
 
 COMMENT ON COLUMN users.email IS 'Email address';
 
@@ -124,8 +124,8 @@ ALTER TABLE datasets
 
 ALTER TABLE datasets
   ADD CONSTRAINT FK_dataset_statuses_TO_datasets
-    FOREIGN KEY (dataseset_status_id)
-    REFERENCES dataset_statuses (dataseset_status_id);
+    FOREIGN KEY (dataset_status_id)
+    REFERENCES dataset_statuses (dataset_status_id);
 
 ALTER TABLE datasets
   ADD CONSTRAINT FK_databases_TO_datasets
@@ -142,4 +142,4 @@ CREATE INDEX datasets_user_idx
   ON datasets (user_id ASC);
 
 CREATE INDEX datasets_status_idx
-  ON datasets (dataseset_status_id ASC);
+  ON datasets (dataset_status_id ASC);
