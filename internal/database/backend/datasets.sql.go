@@ -11,21 +11,21 @@ import (
 )
 
 const createDataset = `-- name: CreateDataset :one
-INSERT INTO datasets (user_id, dataseset_status_id, database_id, table_name)
-VALUES ($1, $2, $3, $4) RETURNING dataset_id, user_id, dataseset_status_id, database_id, table_name, is_archieved, archieved_at, created_at
+INSERT INTO datasets (user_id, dataset_status_id, database_id, table_name)
+VALUES ($1, $2, $3, $4) RETURNING dataset_id, user_id, dataset_status_id, database_id, table_name, is_archieved, archieved_at, created_at
 `
 
 type CreateDatasetParams struct {
-	UserID            int64
-	DatasesetStatusID int32
-	DatabaseID        int64
-	TableName         sql.NullString
+	UserID          int64
+	DatasetStatusID int32
+	DatabaseID      int64
+	TableName       sql.NullString
 }
 
 func (q *Queries) CreateDataset(ctx context.Context, arg CreateDatasetParams) (Dataset, error) {
 	row := q.db.QueryRowContext(ctx, createDataset,
 		arg.UserID,
-		arg.DatasesetStatusID,
+		arg.DatasetStatusID,
 		arg.DatabaseID,
 		arg.TableName,
 	)
@@ -33,7 +33,7 @@ func (q *Queries) CreateDataset(ctx context.Context, arg CreateDatasetParams) (D
 	err := row.Scan(
 		&i.DatasetID,
 		&i.UserID,
-		&i.DatasesetStatusID,
+		&i.DatasetStatusID,
 		&i.DatabaseID,
 		&i.TableName,
 		&i.IsArchieved,
@@ -44,7 +44,7 @@ func (q *Queries) CreateDataset(ctx context.Context, arg CreateDatasetParams) (D
 }
 
 const getDatasetByID = `-- name: GetDatasetByID :one
-SELECT dataset_id, user_id, dataseset_status_id, database_id, table_name, is_archieved, archieved_at, created_at FROM datasets
+SELECT dataset_id, user_id, dataset_status_id, database_id, table_name, is_archieved, archieved_at, created_at FROM datasets
 WHERE dataset_id = $1 LIMIT 1
 `
 
@@ -54,7 +54,7 @@ func (q *Queries) GetDatasetByID(ctx context.Context, datasetID int64) (Dataset,
 	err := row.Scan(
 		&i.DatasetID,
 		&i.UserID,
-		&i.DatasesetStatusID,
+		&i.DatasetStatusID,
 		&i.DatabaseID,
 		&i.TableName,
 		&i.IsArchieved,
@@ -70,18 +70,18 @@ SET
   table_name = $2,
   is_archieved = $3,
   archieved_at = $4,
-  dataseset_status_id = $5,
+  dataset_status_id = $5,
   database_id = $6
-WHERE dataset_id = $1 RETURNING dataset_id, user_id, dataseset_status_id, database_id, table_name, is_archieved, archieved_at, created_at
+WHERE dataset_id = $1 RETURNING dataset_id, user_id, dataset_status_id, database_id, table_name, is_archieved, archieved_at, created_at
 `
 
 type UpdateDatasetParams struct {
-	DatasetID         int64
-	TableName         sql.NullString
-	IsArchieved       bool
-	ArchievedAt       sql.NullTime
-	DatasesetStatusID int32
-	DatabaseID        int64
+	DatasetID       int64
+	TableName       sql.NullString
+	IsArchieved     bool
+	ArchievedAt     sql.NullTime
+	DatasetStatusID int32
+	DatabaseID      int64
 }
 
 func (q *Queries) UpdateDataset(ctx context.Context, arg UpdateDatasetParams) (Dataset, error) {
@@ -90,14 +90,14 @@ func (q *Queries) UpdateDataset(ctx context.Context, arg UpdateDatasetParams) (D
 		arg.TableName,
 		arg.IsArchieved,
 		arg.ArchievedAt,
-		arg.DatasesetStatusID,
+		arg.DatasetStatusID,
 		arg.DatabaseID,
 	)
 	var i Dataset
 	err := row.Scan(
 		&i.DatasetID,
 		&i.UserID,
-		&i.DatasesetStatusID,
+		&i.DatasetStatusID,
 		&i.DatabaseID,
 		&i.TableName,
 		&i.IsArchieved,

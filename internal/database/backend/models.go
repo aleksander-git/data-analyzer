@@ -32,7 +32,7 @@ type Dataset struct {
 	// Owner of dataset
 	UserID int64
 	// Status id
-	DatasesetStatusID int32
+	DatasetStatusID int32
 	// Database id
 	DatabaseID int64
 	// Name of the table
@@ -48,7 +48,7 @@ type Dataset struct {
 // List of available dataset statuses
 type DatasetStatus struct {
 	// Status id
-	DatasesetStatusID int32
+	DatasetStatusID int32
 	// Status name (uploading, available, failed)
 	Name string
 	// Status description
@@ -66,7 +66,7 @@ type User struct {
 	// Person Name
 	Name sql.NullString
 	// Person Surname
-	Surename sql.NullString
+	Surname sql.NullString
 	// Email address
 	Email sql.NullString
 	// Messenger addresses
